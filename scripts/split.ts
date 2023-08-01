@@ -3,14 +3,10 @@ import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { CustomMarkdownLoader } from '../utils/customPDFLoader';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 
-/* Name of directory to retrieve your files from 
-   Make sure to add your PDF files inside the 'docs' folder
-*/
 const filePath = 'docs';
 
 export const run = async () => {
   try {
-    /*load raw docs from the all files in the directory */
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new PDFLoader(path),
       '.md': (path) => new CustomMarkdownLoader(path),
@@ -18,7 +14,6 @@ export const run = async () => {
 
     const rawDocs = await directoryLoader.load();
 
-    /* Split text into chunks */
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 200,
